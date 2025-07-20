@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <title>Free Pricing Slider Configurator</title>
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <h1>Pricing Slider Configurator</h1>
+      <p>Configure your pricing slider below and see it update in real-time!</p>
+    
+      <div class="inputs">
+        <label for="unitType">Unit Type</label>
+        <input type="text" id="unitType" placeholder="Credits, units, seats, etc...">
+        <label for="minValue">Min Value</label>
+        <input type="number" placeholder="0" id="minValue">
+        <label for="maxValue">Max Value</label>
+        <input type="number" placeholder="1,000,000" id="maxValue"><hr>
+        <div class="discounts">
+          <h3>Discounts</h3>
+          <label for="percentageDiscount">Percentage Discount</label>
+          <input type="number" placeholder="10%" id="percentageDiscount">
+          <label for="unitDiscountStartFrom">Start Discount From </label>
+          <input type="number" placeholder="5" id="unitDiscountStartFrom"
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <script src="script.js"></script>
+</body>
+</html>
