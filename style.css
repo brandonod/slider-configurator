@@ -70,3 +70,25 @@ p {
   flex-direction: column;
   gap: 5px;;
 }
+
+.sliderConfig {
+  width: 100%;
+}
+
+input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: var(--accent-color);
+  border-radius: 1.3px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}

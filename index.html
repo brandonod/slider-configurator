@@ -19,14 +19,43 @@
     <div class="container">
       <h1>Pricing Slider Configurator</h1>
       <p>Configure your pricing slider below and see it update in real-time!</p>
-    
+      <div class="sliderConfig">
+        <input 
+        type="range"
+        id="sliderConfig"
+        min="0"
+        max="100"
+        value="0"
+        step="1"
+        list="values"
+        >
+        <datalist id="values">
+          <option value="0"></option>
+          <option value="10"></option>
+          <option value="20"></option>
+          <option value="30"></option>
+          <option value="40"></option>
+          <option value="50"></option>
+        </datalist>
+        <h2 id="sliderOutputText">You will receive <span id="creditValueText">15</span><span id="unitTypeText"> credits</span></h2>
+
+      </div>
       <div class="inputs">
-        <label for="unitType">Unit Type</label>
-        <input type="text" id="unitType" placeholder="Credits, units, seats, etc...">
-        <label for="minValue">Min Value</label>
-        <input type="number" placeholder="0" id="minValue">
-        <label for="maxValue">Max Value</label>
-        <input type="number" placeholder="1,000,000" id="maxValue"><hr>
+        <form id="form">
+          <label for="unitType">Unit Type</label>
+          <input type="text" id="unitType" placeholder="Credits, units, seats, etc...">
+
+          <label for="minValue">Min Value</label>
+          <input type="number" placeholder="0" id="minValue">
+
+          <label for="maxValue">Max Value</label>
+          <input type="number" placeholder="1,000,000" id="maxValue">
+
+          <label for="phrase">Insert Your Phrase</label>
+          <input type="number" placeholder="You will receive 15 credits" id="phrase">
+        </form>
+          <hr>
+
         <div class="discounts">
           <h3>Discounts</h3>
           <label for="percentageDiscount">Percentage Discount</label>
