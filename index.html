@@ -17,57 +17,39 @@
 
   <section>
     <div class="container">
-      <h1>Pricing Slider Configurator</h1>
+        <h1>Pricing Slider Configurator</h1>
       <p>Configure your pricing slider below and see it update in real-time!</p>
-      <div class="sliderConfig">
-        <input 
+
+      <input
         type="range"
         id="sliderConfig"
         min="0"
         max="100"
-        value="0"
+        value="15"
         step="1"
-        list="values"
-        >
-        <datalist id="values">
-          <option value="0"></option>
-          <option value="10"></option>
-          <option value="20"></option>
-          <option value="30"></option>
-          <option value="40"></option>
-          <option value="50"></option>
-        </datalist>
-        <h2 id="sliderOutputText">You will receive <span id="creditValueText">15</span><span id="unitTypeText"> credits</span></h2>
+      />
+      <label for="sliderConfig">Units Amount: <span id="sliderValue">15</span></label>
 
-      </div>
-      <div class="inputs">
-        <form id="form">
-          <label for="unitType">Unit Type</label>
-          <input type="text" id="unitType" placeholder="Credits, units, seats, etc...">
+      <label for="unitType">Unit Type (e.g. credits, seats):</label>
+      <input type="text" id="unitType" placeholder="Credits, seats, etc." value="credits" />
 
-          <label for="minValue">Min Value</label>
-          <input type="number" placeholder="0" id="minValue">
+      <label for="percentageDiscount">Percentage Discount (%):</label>
+      <input type="number" id="percentageDiscount" placeholder="10" value="10" min="0" max="100" />
 
-          <label for="maxValue">Max Value</label>
-          <input type="number" placeholder="1,000,000" id="maxValue">
+      <label for="unitDiscountStartFrom">Start Discount From (units):</label>
+      <input type="number" id="unitDiscountStartFrom" placeholder="5" value="5" min="0" />
 
-          <label for="phrase">Insert Your Phrase</label>
-          <input type="number" placeholder="You will receive 15 credits" id="phrase">
-        </form>
-          <hr>
+      <label for="phrase">Insert Your Phrase:</label>
+      <textarea
+        id="phrase"
+        rows="3"
+        placeholder="Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [PRICE]!"
+      >Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [PRICE]!</textarea>
 
-        <div class="discounts">
-          <h3>Discounts</h3>
-          <label for="percentageDiscount">Percentage Discount</label>
-          <input type="number" placeholder="10%" id="percentageDiscount">
-          <label for="unitDiscountStartFrom">Start Discount From </label>
-          <input type="number" placeholder="5" id="unitDiscountStartFrom"
-        </div>
-      </div>
-    </div>
-  </section>
+      <h2 id="sliderOutputText"></h2>
+      </section>
   
-
+  </div>  
   <script src="script.js"></script>
 </body>
 </html>
