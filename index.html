@@ -12,6 +12,7 @@
 <body>
   <header class="site-header">
     <div class="container">
+      <a href="/test.html">Test</a>
     </div>
   </header>
 
@@ -20,6 +21,7 @@
         <h1>Pricing Slider Configurator</h1>
       <p>Configure your pricing slider below and see it update in real-time!</p>
 
+      <h2 id="sliderOutputText"></h2>
       <input
         type="range"
         id="sliderConfig"
@@ -46,10 +48,23 @@
         placeholder="Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [PRICE]!"
       >Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [PRICE]!</textarea>
 
-      <h2 id="sliderOutputText"></h2>
-      </section>
-  
-  </div>  
+        <button id="btnGetCode">Get Code</button>
+
+        <div class="codeParent" id="codeBox">
+          <button id="closePopup" style="float:right;">✖</button>
+          <h2>Code Output</h2>
+          <div class="css codeoutput">
+            <p id="cssCode" class="code">/* CSS output */</p>
+          </div>
+          <div class="html codeoutput">
+            <p id="htmlCode" class="code"></p>
+          </div>
+          <div class="js codeoutput">
+            <p id="jsCode" class="code"></p>
+          </div>
+        </div>
+      </section> 
   <script src="script.js"></script>
+  <script src="button.js"></script>
 </body>
 </html>

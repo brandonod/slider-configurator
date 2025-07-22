@@ -8,6 +8,8 @@ const phraseInput        = document.querySelector('#phrase');
 const sliderOutputText   = document.querySelector('#sliderOutputText');
 const percentageDiscount = document.querySelector('#percentageDiscount');
 const unitDiscountStart  = document.querySelector('#unitDiscountStartFrom');
+const btnGetCode         = document.querySelector('#btnGetCode');
+const codeBox            = document.querySelector('#codeBox');
 
 // === State Variables ===
 let currentCreditAmount = parseInt(sliderConfig.value, 10);
@@ -83,3 +85,65 @@ function updateSliderOutput() {
 // Initialize display on page load
 sliderValueSpan.textContent = currentCreditAmount;
 updateSliderOutput();
+
+// Get Code Button 
+btnGetCode.addEventListener('click', () => {
+  const htmlCode = `
+<div id="pricingSlider">
+  <h2 id="sliderOutput">Purchase ${currentCreditAmount} ${currentUnitType} and receive a ${getDiscountText()}, making your total just $${calculatePrice()}!</h2>
+  <input type="range" id="sliderInput" min="1" max="20" value="${currentCreditAmount}" step="1" />
+</div>`;
+
+  const jsCode = `
+<script>
+const sliderInput = document.getElementById('sliderInput');
+const sliderOutput = document.getElementById('sliderOutput');
+
+const basePricePerUnit = ${basePricePerUnit};
+const discountPercent = ${discountPercent};
+const unitDiscountStartFrom = ${unitDiscountStartFrom};
+const unitType = "${currentUnitType}";
+
+function calculatePrice(units) {
+  let total = units * basePricePerUnit;
+  if (units >= unitDiscountStartFrom) {
+    total *= (1 - discountPercent / 100);
+  }
+  return total.toFixed(2);
+}
+
+function getDiscountText(units) {
+  return units >= unitDiscountStartFrom ? discountPercent + '%' : '0%';
+}
+
+function updateOutput(units) {
+  sliderOutput.textContent = \`${templatePhrase
+    .replace(/\[UNITS_AMOUNT\]/g, "\${units}")
+    .replace(/\[UNITS\]/g, "\${unitType}")
+    .replace(/\[DISCOUNT\]/g, "\${getDiscountText(units)}")
+    .replace(/\[PRICE\]/g, "\${calculatePrice(units)}")}\`;
+}
+
+sliderInput.addEventListener('input', (e) => {
+  updateOutput(parseInt(e.target.value, 10));
+});
+
+updateOutput(${currentCreditAmount});
+<\/script>`;
+
+  document.getElementById('htmlCode').textContent = htmlCode.trim();
+  document.getElementById('jsCode').textContent = jsCode.trim();
+
+  openPopup();
+});
+
+
+function openPopup() {
+  document.getElementById('codeBox').classList.add('codeParent-flex');
+}
+
+function closePopup() {
+  document.getElementById('codeBox').classList.remove('codeParent-flex');
+}
+
+document.getElementById('closePopup').addEventListener('click', closePopup);

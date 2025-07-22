@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="pricingSlider"> <h2 id="sliderOutput">Purchase 15 credits and receive a 10%, making your total just $135.00!</h2> <input type="range" id="sliderInput" min="0" max="100" value="15" step="1" /> </div>
+</body>
+<script> const sliderInput = document.getElementById('sliderInput'); const sliderOutput = document.getElementById('sliderOutput'); const basePricePerUnit = 10; const discountPercent = 10; const unitDiscountStartFrom = 5; const unitType = "credits"; function calculatePrice(units) { let total = units * basePricePerUnit; if (units >= unitDiscountStartFrom) { total *= (1 - discountPercent / 100); } return total.toFixed(2); } function getDiscountText(units) { return units >= unitDiscountStartFrom ? discountPercent + '%' : '0%'; } function updateOutput(units) { sliderOutput.textContent = `Purchase ${units} ${unitType} and receive a ${getDiscountText(units)} discount, making your total just ${calculatePrice(units)}!`; } sliderInput.addEventListener('input', (e) => { updateOutput(parseInt(e.target.value, 10)); }); // Initialize updateOutput(15); </script>
+</html>
