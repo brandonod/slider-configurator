@@ -165,31 +165,29 @@ function closeNav() {
 
 ////////// DESIGN 
 const box = document.getElementById('box');
+const pickr = Pickr.create({
+  el: '#color-picker-button',
+  theme: 'classic',
+  default: '#ff0000',
+  components: {
+      preview: true,
+      opacity: true,
+      hue: true,
 
-  const pickr = Pickr.create({
-    el: '#color-picker-button',
-    theme: 'classic',
-    default: '#ff0000',
-    components: {
-        preview: true,
-        opacity: true,
-        hue: true,
+      interaction: {
+          hex: true,
+          rgba: true,
+          hsla: true,
+          input: true,
+          save: true
+      }
+  }
+});
 
-        interaction: {
-            hex: true,
-            rgba: true,
-            hsla: true,
-            input: true,
-            save: true
-        }
-    }
-  });
+pickr.on('save', (color) => {
+  const hex = color.toHEXA().toString();
+  document.documentElement.style.setProperty('--track-color', hex);
+  pickr.hide();
+});
 
-  pickr.on('save', (color) => {
-    const hex = color.toHEXA().toString(); // HEX + Alpha
-    box.style.backgroundColor = hex;
-    pickr.hide(); // Optional: auto-close on save
-  });
-
-  sliderConfig.display.add(input[type=range]::-webkit-slider-runnable-track.backgroundColor=`${}`);
 
