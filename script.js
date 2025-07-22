@@ -10,6 +10,8 @@ const percentageDiscount = document.querySelector('#percentageDiscount');
 const unitDiscountStart  = document.querySelector('#unitDiscountStartFrom');
 const btnGetCode         = document.querySelector('#btnGetCode');
 const codeBox            = document.querySelector('#codeBox');
+const sideNav            =document.querySelector('#sideNiv');
+const display      = document.querySelector('#display');
 
 // === State Variables ===
 let currentCreditAmount = parseInt(sliderConfig.value, 10);
@@ -147,3 +149,47 @@ function closePopup() {
 }
 
 document.getElementById('closePopup').addEventListener('click', closePopup);
+
+
+// Side Navigation functionality 
+function openNav() {
+  document.getElementById("sideNav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+  document.getElementById("sideNav").style.width = "50px";
+  document.getElementById("main").style.marginLeft = "0";
+}
+
+////////// DESIGN 
+const box = document.getElementById('box');
+
+  const pickr = Pickr.create({
+    el: '#color-picker-button',
+    theme: 'classic',
+    default: '#ff0000',
+    components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+
+        interaction: {
+            hex: true,
+            rgba: true,
+            hsla: true,
+            input: true,
+            save: true
+        }
+    }
+  });
+
+  pickr.on('save', (color) => {
+    const hex = color.toHEXA().toString(); // HEX + Alpha
+    box.style.backgroundColor = hex;
+    pickr.hide(); // Optional: auto-close on save
+  });
+
+  sliderConfig.display.add(input[type=range]::-webkit-slider-runnable-track.backgroundColor=`${}`);
+
