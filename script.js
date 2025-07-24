@@ -11,7 +11,8 @@ const unitDiscountStart  = document.querySelector('#unitDiscountStartFrom');
 const btnGetCode         = document.querySelector('#btnGetCode');
 const codeBox            = document.querySelector('#codeBox');
 const sideNav            =document.querySelector('#sideNiv');
-const display      = document.querySelector('#display');
+const display            = document.querySelector('#display');
+const pricePerUnit       = document.querySelector('#pricePerUnit');
 
 // === State Variables ===
 let currentCreditAmount = parseInt(sliderConfig.value, 10);
@@ -21,7 +22,15 @@ let unitDiscountStartFrom = parseInt(unitDiscountStart.value, 10) || 5;
 let templatePhrase = phraseInput.value.trim();
 
 // === Price Config ===
-const basePricePerUnit = 10; // Example price per unit
+let basePricePerUnit = 10; // Example price per unit
+
+pricePerUnit.addEventListener('input', (e) => {
+  const value = parseFloat(e.target.value); // use parseFloat for decimal support
+  basePricePerUnit = isNaN(value) ? 1 : value; // fallback to 1 if input is empty or invalid
+
+  sliderValueSpan.textContent = basePricePerUnit;
+  updateSliderOutput();
+});
 
 // === Event Listeners ===
 
@@ -189,5 +198,3 @@ pickr.on('save', (color) => {
   document.documentElement.style.setProperty('--track-color', hex);
   pickr.hide();
 });
-
-
