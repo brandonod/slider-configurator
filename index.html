@@ -74,8 +74,9 @@
                     <div class="form-group">
                         <label class="form-label">The Text You'll Output</label>
                         <textarea class="form-textarea" 
-                        placeholder="Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [PRICE]!">
-                      Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [PRICE]!</textarea>
+                        placeholder="Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY][PRICE]!"
+                        id="phrase">
+                      Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY][PRICE]!</textarea>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Unit Name</label>
@@ -83,7 +84,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Unit Name Plural</label>
-                        <input type="text" class="form-input" placeholder="items">
+                        <input type="text" class="form-input" placeholder="items" id="unitTypePlural">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Price Per Unit</label>
@@ -91,34 +92,34 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Currency</label>
-                        <select class="form-select">
-                            <option>US Dollar</option>
-                            <option>Euro</option>
-                            <option>British Pound</option>
+                        <select class="form-select" id="currency">
+                          <option value="USD">US Dollar</option>
+                          <option value="EUR">Euro</option>
+                          <option value="GBP">British Pound</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Min Unit</label>
+                        <input type="number" class="form-input" value="1" id="minValue">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Max Unit</label>
+                        <input type="number" class="form-input" value="100" id="maxValue">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Default Unit Amount</label>
+                        <input type="number" class="form-input" value="1" id="defaultUnitAmount">
                     </div>
                 </div>
 
                 <div class="tab-panel" id="general-advanced">
                     <div class="form-group">
-                        <label class="form-label">Min Unit</label>
-                        <input type="number" class="form-input" value="1">
+                        <label class="form-label">Percentage Discount</label>
+                        <input type="number" class="form-input" value="1" id="percentageDiscount">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Max Unit</label>
-                        <input type="number" class="form-input" value="100">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Default Unit Amount</label>
-                        <input type="number" class="form-input" value="1">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Tooltip Unit Prefix</label>
-                        <input type="text" class="form-input" placeholder="Enter text">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Tooltip Unit Suffix</label>
-                        <input type="text" class="form-input" placeholder="Enter text">
+                        <label class="form-label">Discount Starts at Unit</label>
+                        <input type="number" class="form-input" value="5" id="unitDiscountStartFrom">
                     </div>
                 </div>
 
@@ -249,6 +250,7 @@
                     <p>Configure your pricing slider below and see it update in real-time!</p>
 
                     <h2 id="sliderOutputText"></h2>
+                    <label for="sliderConfig">Units Amount: <span id="sliderValue">15</span></label>
                     <input
                         type="range"
                         id="sliderConfig"
@@ -257,34 +259,8 @@
                         value="15"
                         step="1"
                     />
-                </div>
-            </section>
 
-            <section>
-                <div class="container" id="display">
-                    <label for="sliderConfig">Units Amount: <span id="sliderValue">15</span></label>
-
-                    <label for="unitType">Unit Type (e.g. credits, seats):</label>
-                    <input type="text" id="unitType" placeholder="Credits, seats, etc." value="credits" />
-
-                    <label for="percentageDiscount">Percentage Discount (%):</label>
-                    <input type="number" id="percentageDiscount" placeholder="10" value="10" min="0" max="100" />
-
-                    <label for="unitDiscountStartFrom">Start Discount From (units):</label>
-                    <input type="number" id="unitDiscountStartFrom" placeholder="5" value="5" min="0" />
-
-                    <label for="phrase">Insert Your Phrase:</label>
-                    <textarea
-                        id="phrase"
-                        rows="3"
-                        placeholder="Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [PRICE]!"
-                    >Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [PRICE]!</textarea>
-                </div>
-            </section>
-
-            <section>
-                <div class="container">
-                    <button id="btnGetCode">Get Code</button>
+                   <button id="btnGetCode">Get Code</button>
                 </div>
             </section>
 
@@ -303,19 +279,10 @@
                     </div>
                 </div>
             </section>
-
-            <section>
-                <div class="container">
-                    <label>Choose your track color:</label>
-                    <div id="color-picker-button" style="margin-top:10px; cursor:pointer;">Open Color Picker</div>
-                    <div id="box"></div>
-                </div>
-            </section>
         </main>
     </div>
 
     <script src="script.js"></script>
-    <script src="button.js"></script>
     <script src="sideNav.js"></script>
 </body>
 </html>
