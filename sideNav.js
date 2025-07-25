@@ -107,3 +107,57 @@
         document.getElementById('expandedPanel').addEventListener('click', function(event) {
             event.stopPropagation();
         });
+
+// Linear vs. Interval Function 
+
+const discountMethodSelect = document.getElementById('discountMethod');
+const linearOptions = document.getElementById('linearOptions');
+const intervalOptions = document.querySelector('#intervalOptions');
+
+function updateDiscountOptionsUI(method) {
+    if (method === 'linear') {
+        linearOptions.style.display = 'block';
+        intervalOptions.style.display = 'none';
+    } else if (method === 'intervals') {
+        linearOptions.style.display = 'none';
+        intervalOptions.style.display = 'block';
+    }
+}
+
+// Initial state
+updateDiscountOptionsUI(discountMethodSelect.value);
+
+// Listen for changes
+discountMethodSelect.addEventListener('change', (e) => {
+    updateDiscountOptionsUI(e.target.value);
+});
+
+
+const addNewInterval = document.querySelector('#addNewInterval');
+
+addNewInterval.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  const newIntervalDiv = document.createElement('div');
+  newIntervalDiv.classList.add('form-group', 'interval');
+
+  newIntervalDiv.innerHTML = `
+    <div class="exitbutton">X</div>
+    <label class="form-label">Discount Starts At</label>
+    <input type="number" class="form-input" value="5">
+    <label class="form-label">Discount Percentage (%)</label>
+    <input type="number" class="form-input" value="5">
+  `;
+
+  intervalOptions.insertBefore(newIntervalDiv, addNewInterval);
+});
+
+// ✅ Use event delegation to handle all future ".exitbutton" clicks
+intervalOptions.addEventListener('click', (e) => {
+  if (e.target.classList.contains('exitbutton')) {
+    const interval = e.target.closest('.interval');
+    if (interval) interval.remove();
+  }
+});
+
+

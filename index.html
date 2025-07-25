@@ -120,14 +120,29 @@
                           <option value="intervals">Intervals</option>
                         </select>
                     </div>
+                    <!--Lienar Discount-->
+                    <div id="linearOptions">
                     <div class="form-group">
-                        <label class="form-label">Percentage Discount</label>
-                        <input type="number" class="form-input" value="1" id="percentageDiscount">
+                      <label class="form-label">Percentage Discount</label>
+                      <input type="number" class="form-input" value="1" id="percentageDiscount">
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Discount Starts at Unit</label>
-                        <input type="number" class="form-input" value="5" id="unitDiscountStartFrom">
+                      <label class="form-label">Discount Starts at Unit</label>
+                      <input type="number" class="form-input" value="5" id="unitDiscountStartFrom">
                     </div>
+                  </div>
+
+                    <div id="intervalOptions">
+                        <div class="form-group interval">
+                          
+                            <label class="form-label">Discount Starts At</label>
+                            <input type="number" class="form-input interval-discount-number" value="5"id="intervalDiscountNumber">
+                            <label class="form-label">Discount Percentage (%)</label>
+                            <input type="number" class="form-input interval-discount-percentage" value="5" id="intervalDiscountPercentage">
+                          
+                        </div>
+                        <button id="addNewInterval">+ Add Interval</button>
+                      </div>
                 </div>
 
                 <!-- Design Panel Content -->
