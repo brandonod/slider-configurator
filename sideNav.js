@@ -108,31 +108,9 @@
             event.stopPropagation();
         });
 
-// Linear vs. Interval Function 
-
-const discountMethodSelect = document.getElementById('discountMethod');
-const linearOptions = document.getElementById('linearOptions');
-const intervalOptions = document.querySelector('#intervalOptions');
-
-function updateDiscountOptionsUI(method) {
-    if (method === 'linear') {
-        linearOptions.style.display = 'block';
-        intervalOptions.style.display = 'none';
-    } else if (method === 'intervals') {
-        linearOptions.style.display = 'none';
-        intervalOptions.style.display = 'block';
-    }
-}
-
-// Initial state
-updateDiscountOptionsUI(discountMethodSelect.value);
-
-// Listen for changes
-discountMethodSelect.addEventListener('change', (e) => {
-    updateDiscountOptionsUI(e.target.value);
-});
 
 
+// Adding a new interval button
 const addNewInterval = document.querySelector('#addNewInterval');
 
 addNewInterval.addEventListener('click', (e) => {

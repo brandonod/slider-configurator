@@ -725,3 +725,22 @@ input:checked + .slider:before {
   flex-direction: column;
   gap: 35px;
 }
+
+.interval {
+  padding: 15px; 
+  border-radius: 15px;
+  border: 1px dotted var(--border-dark);
+}
+
+.exitbutton {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  color: var(--border-dark);
+}
+
+.exitbutton:hover {
+  scale: 1.03;
+  color: black;
+  transition: 300ms;
+}
