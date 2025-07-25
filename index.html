@@ -115,7 +115,7 @@
                 <div class="tab-panel" id="general-advanced">
                     <div class="form-group">
                         <label for="discountMethod">Choose Discount Method:</label>
-                        <select name="Discount Method" id="discountMethod">
+                        <select name="Discount Method" id="discountMethod" class="form-select">
                           <option value="linear">Linear</option>
                           <option value="intervals">Intervals</option>
                         </select>
@@ -148,8 +148,8 @@
                 <!-- Design Panel Content -->
                 <div class="tab-panel" id="design-basic" style="display: none;">
                     <div class="form-group">
-                        <label class="form-label">Primary Color</label>
-                        <input type="color" class="form-input" value="#4c6ef5">
+                        <label for="trackColor">Choose Track Color</label>
+                        <input type="color" id="trackColor" value="#ff0000" />  
                     </div>
                     <div class="form-group">
                         <label class="form-label">Background Color</label>

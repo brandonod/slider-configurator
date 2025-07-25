@@ -276,28 +276,47 @@ function closeNav() {
   document.getElementById("main").style.marginLeft = "0";
 }
 
-// === Color Picker Logic (Optional Design Tool)
-const pickr = Pickr.create({
-  el: '#color-picker-button',
-  theme: 'classic',
-  default: '#ff0000',
-  components: {
-    preview: true,
-    opacity: true,
-    hue: true,
-    interaction: {
-      hex: true,
-      rgba: true,
-      hsla: true,
-      input: true,
-      save: true
+// ====== DESIGN ========
+
+document.addEventListener('DOMContentLoaded', () => {
+  const slider = document.getElementById('sliderConfig');
+  const trackColor = document.getElementById('trackColor');
+  let currentTrackColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-track').trim();
+
+  // Set initial value in native color input
+  trackColor.value = currentTrackColor;
+
+  // Native color input → update global CSS + Pickr
+  trackColor.addEventListener('input', (e) => {
+    currentTrackColor = e.target.value;
+    document.documentElement.style.setProperty('--slider-track', currentTrackColor);
+    pickr.setColor(currentTrackColor);
+  });
+
+  // Initialize Pickr
+  const pickr = Pickr.create({
+    el: '.track-pickr',
+    theme: 'classic',
+    default: currentTrackColor,
+    swatches: null,
+    components: {
+      preview: true,
+      opacity: false,
+      hue: true,
+      interaction: {
+        hex: true,
+        input: true,
+        clear: false,
+        save: false
+      }
     }
-  }
-});
+  });
 
-pickr.on('save', (color) => {
-  const hex = color.toHEXA().toString();
-  document.documentElement.style.setProperty('--track-color', hex);
-  pickr.hide();
+  // Pickr → update global CSS + native input
+  pickr.on('change', (color) => {
+    const hex = color.toHEXA().toString();
+    currentTrackColor = hex;
+    document.documentElement.style.setProperty('--slider-track', hex);
+    trackColor.value = hex;
+  });
 });
-
