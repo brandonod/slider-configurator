@@ -99,21 +99,91 @@ currency.addEventListener('change', (e) => {
   updateSliderOutput();
 });
 
+// === Interval Logic ===
+const discountMethodSelect = document.getElementById('discountMethod');
+const linearOptions = document.getElementById('linearOptions');
+const intervalOptions = document.querySelector('#intervalOptions');
+
+function updateDiscountOptionsUI(method) {
+    if (method === 'linear') {
+        linearOptions.style.display = 'block';
+        intervalOptions.style.display = 'none';
+    } else if (method === 'intervals') {
+        linearOptions.style.display = 'none';
+        intervalOptions.style.display = 'block';
+    }
+}
+
+// Initial state
+updateDiscountOptionsUI(discountMethodSelect.value);
+
+// Listen for changes
+discountMethodSelect.addEventListener('change', (e) => {
+    updateDiscountOptionsUI(e.target.value);
+});
+
+// Populate Interval Data 
+function updateIntervalDiscountsFromUI() {
+  intervalDiscounts = []; // Clear the old array
+
+  const intervalDivs = document.querySelectorAll('.interval');
+
+  intervalDivs.forEach(div => {
+    const inputs = div.querySelectorAll('input');
+    const from = parseInt(inputs[0].value, 10);
+    const discount = parseFloat(inputs[1].value);
+
+    if (!isNaN(from) && !isNaN(discount)) {
+      intervalDiscounts.push({ from, discount });
+    }
+  });
+
+  // Sort descending so highest thresholds are matched first
+  intervalDiscounts.sort((a, b) => b.from - a.from);
+}
+
+
+
+
 // === Pricing Logic ===
 function calculatePrice() {
   let total = currentCreditAmount * basePricePerUnit;
-  if (currentCreditAmount >= unitDiscountStartFrom) {
-    total *= (1 - discountPercent / 100);
+
+  if (discountMethodSelect.value === 'linear') {
+    if (currentCreditAmount >= unitDiscountStartFrom) {
+      total *= (1 - discountPercent / 100);
+    }
+  } else if (discountMethodSelect.value === 'intervals') {
+    const applicable = intervalDiscounts
+      .filter(tier => currentCreditAmount >= tier.from)
+      .sort((a, b) => b.from - a.from)[0];
+    if (applicable) {
+      total *= (1 - applicable.discount / 100);
+    }
   }
+
   return total.toFixed(2);
 }
 
+
 function getDiscountText() {
-  return currentCreditAmount >= unitDiscountStartFrom ? `${discountPercent}%` : '0%';
+  if (discountMethodSelect.value === 'linear') {
+    return currentCreditAmount >= unitDiscountStartFrom ? `${discountPercent}%` : '0%';
+  } else if (discountMethodSelect.value === 'intervals') {
+    const applicable = intervalDiscounts
+      .filter(tier => currentCreditAmount >= tier.from)
+      .sort((a, b) => b.from - a.from)[0];
+    return applicable ? `${applicable.discount}%` : '0%';
+  }
 }
+
 
 // === Output Update Function ===
 function updateSliderOutput() {
+  if (discountMethodSelect.value === 'intervals') {
+    updateIntervalDiscountsFromUI(); // <- This line is key
+  }
+
   const unitLabel = currentCreditAmount === 1 ? currentUnitType : currentUnitTypePlural;
 
   let output = templatePhrase
@@ -126,6 +196,7 @@ function updateSliderOutput() {
 
   sliderOutputText.textContent = output;
 }
+
 
 
 // === Initialize UI on Load ===
@@ -230,25 +301,3 @@ pickr.on('save', (color) => {
   pickr.hide();
 });
 
-
-const discountMethodSelect = document.getElementById('discountMethod');
-const linearOptions = document.getElementById('linearOptions');
-const intervalOptions = document.querySelector('#intervalOptions');
-
-function updateDiscountOptionsUI(method) {
-    if (method === 'linear') {
-        linearOptions.style.display = 'block';
-        intervalOptions.style.display = 'none';
-    } else if (method === 'intervals') {
-        linearOptions.style.display = 'none';
-        intervalOptions.style.display = 'block';
-    }
-}
-
-// Initial state
-updateDiscountOptionsUI(discountMethodSelect.value);
-
-// Listen for changes
-discountMethodSelect.addEventListener('change', (e) => {
-    updateDiscountOptionsUI(e.target.value);
-});
