@@ -834,3 +834,9 @@ input:checked + .slider:before {
   transition: 300ms;
 }
 
+.varaible_text {
+  color: var(--accent-color);
+}
+ .variable_text {
+  font-size: 12px;
+ }

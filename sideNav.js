@@ -1,4 +1,4 @@
-  let currentPanel = null;
+  let currentPanel = 'general';
         let currentTab = 'basic';
 
         // Navigation item click handler

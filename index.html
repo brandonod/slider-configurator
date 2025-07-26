@@ -13,12 +13,6 @@
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/test.html">Test</a>
-    </div>
-  </header>
-
   <div class="app-container">
     <!-- Side Navigation -->
     <nav class="sidenav">
@@ -35,7 +29,7 @@
     </nav>
 
     <!-- Expanded Panel -->
-    <div class="expanded-panel" id="expandedPanel">
+    <div class="expanded-panel open" id="expandedPanel">
       <div class="panel-header">
         <h2 class="panel-title" id="panelTitle">General</h2>
         <button class="close-btn" onclick="closePanel()">
@@ -56,6 +50,7 @@
           <div class="form-group">
             <label class="form-label">The Text You'll Output</label>
             <textarea class="form-textarea" placeholder="Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY][PRICE]!" id="phrase">Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY][PRICE]!</textarea>
+            <p class="variable_text">use variables like <span class="varaible_text">[UNITS_AMOUNT]</span>, <span class="varaible_text">[UNITS]</span>, <span class="varaible_text">[DISCOUNTS]</span>, <span class="varaible_text">[CURRENCY]</span>, & <span class="varaible_text">[PRICE]</span>. </p>
           </div>
           <div class="form-group">
             <label class="form-label">Unit Name</label>
@@ -127,17 +122,17 @@
           <div class="form-group">
             <label for="trackColor">Choose Track Color</label>
             <input type="color" id="trackColor" value="#cccccc" />
-            <div class="track-pickr"></div>
+            
           </div>
           <div class="form-group">
             <label for="progressColor">Choose Progress Fill Color</label>
             <input type="color" id="progressColor" value="#ff0000" />
-            <div class="progress-pickr"></div>
+            
           </div>
           <div class="form-group">
             <label class="form-label">Text Color</label>
             <input type="color" class="form-input" id="sliderOutputTextColor" value="#333333">
-            <div class="progress-pickr"></div>
+            
           </div>
         </div>
 
@@ -145,7 +140,7 @@
           <div class="form-group">
             <label class="form-label">Thumb Color</label>
             <input type="color" class="form-input" id="thumbColorInput" value="#cccccc">
-            <div class="thumb-pickr"></div>
+            
           </div>
           <div class="form-group">
             <label class="form-label">Thumb Shape</label>
@@ -203,6 +198,14 @@
       </section>
     </main>
   </div> <!-- Close .app-container -->
+
+  <section>
+    <div class="container">
+      <h2>Built by <a href="https://www.brandch.com/">brandon @ brandch design</a></h2>
+      <p>email brandon@brandch.com for feature requests</p>
+      <a href="https://buy.stripe.com/00w8wQ6EaddK2aC2jY5os03"><button>Buy us a coffee? ☕️</button></a>
+    </div>
+  </section>
 
   <script src="script.js"></script>
   <script src="sideNav.js"></script>
