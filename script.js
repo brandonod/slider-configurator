@@ -36,6 +36,18 @@ let currentCurrencyCode     = currency.value;
 let currentCurrencySymbol   = currencySymbols[currentCurrencyCode] || "$";
 let currentDefaultUnitAmount = defaultUnitAmount.value;
 
+// === Design Variables ===
+let trackColor = '#cccccc';
+let progressColor = '#ff0000';
+let thumbColor = '#000000';
+let thumbRadius = '50%';
+let thumbWidth = '20px';
+let sliderHeight = '8px';
+let sliderOutputTextColor = '#333333';
+
+// Initialize interval discounts array
+let intervalDiscounts = [];
+
 // === Price Config ===
 pricePerUnit.addEventListener('input', (e) => {
   const value = parseFloat(e.target.value);
@@ -51,10 +63,11 @@ sliderConfig.addEventListener('input', (e) => {
 });
 
 defaultUnitAmount.addEventListener('input', (e) => {
-  currentDefaultUnitAmount = e.target.value, 10;
+  currentDefaultUnitAmount = e.target.value;
   sliderConfig.value = currentDefaultUnitAmount;
+  currentCreditAmount = parseInt(currentDefaultUnitAmount, 10);
   updateSliderOutput();
-})
+});
 
 unitTypeInput.addEventListener('input', (e) => {
   currentUnitType = e.target.value.trim() || 'credit';
@@ -142,9 +155,6 @@ function updateIntervalDiscountsFromUI() {
   intervalDiscounts.sort((a, b) => b.from - a.from);
 }
 
-
-
-
 // === Pricing Logic ===
 function calculatePrice() {
   let total = currentCreditAmount * basePricePerUnit;
@@ -165,7 +175,6 @@ function calculatePrice() {
   return total.toFixed(2);
 }
 
-
 function getDiscountText() {
   if (discountMethodSelect.value === 'linear') {
     return currentCreditAmount >= unitDiscountStartFrom ? `${discountPercent}%` : '0%';
@@ -177,11 +186,10 @@ function getDiscountText() {
   }
 }
 
-
 // === Output Update Function ===
 function updateSliderOutput() {
   if (discountMethodSelect.value === 'intervals') {
-    updateIntervalDiscountsFromUI(); // <- This line is key
+    updateIntervalDiscountsFromUI();
   }
 
   const unitLabel = currentCreditAmount === 1 ? currentUnitType : currentUnitTypePlural;
@@ -197,74 +205,9 @@ function updateSliderOutput() {
   sliderOutputText.textContent = output;
 }
 
-
-
 // === Initialize UI on Load ===
 sliderValueSpan.textContent = currentCreditAmount;
 updateSliderOutput();
-
-// === Code Generation Button ===
-btnGetCode.addEventListener('click', () => {
-  const htmlCode = `
-<div id="pricingSlider">
-  <h2 id="sliderOutput">Purchase ${currentCreditAmount} ${currentUnitType} and receive a ${getDiscountText()} discount, making your total just ${currentCurrencySymbol}${calculatePrice()}!</h2>
-  <input type="range" id="sliderInput" min="${currentMinValue}" max="${currentMaxValue}" value="${currentCreditAmount}" step="1" />
-</div>`;
-
-  const jsCode = `
-<script>
-const sliderInput = document.getElementById('sliderInput');
-const sliderOutput = document.getElementById('sliderOutput');
-const basePricePerUnit = ${basePricePerUnit};
-const discountPercent = ${discountPercent};
-const unitDiscountStartFrom = ${unitDiscountStartFrom};
-const unitType = "${currentUnitType}";
-const unitTypePlural = "${currentUnitTypePlural}";
-const symbol = "${currentCurrencySymbol}";
-
-function calculatePrice(units) {
-  let total = units * basePricePerUnit;
-  if (units >= unitDiscountStartFrom) {
-    total *= (1 - discountPercent / 100);
-  }
-  return total.toFixed(2);
-}
-
-function getDiscountText(units) {
-  return units >= unitDiscountStartFrom ? discountPercent + '%' : '0%';
-}
-
-function updateOutput(units) {
-  const unitLabel = units === 1 ? unitType : unitTypePlural;
-  sliderOutput.textContent = \`${templatePhrase
-    .replace(/\[UNITS_AMOUNT\]/g, "\${units}")
-    .replace(/\[UNITS\]/g, "\${unitLabel}")
-    .replace(/\[DISCOUNT\]/g, "\${getDiscountText(units)}")
-    .replace(/\[PRICE\]/g, "\${calculatePrice(units)}")
-    .replace(/\[CURRENCY_TYPE\]/g, "\${symbol}")}\`;
-}
-
-sliderInput.addEventListener('input', (e) => {
-  updateOutput(parseInt(e.target.value, 10));
-});
-
-updateOutput(${currentCreditAmount});
-<\/script>`;
-
-  document.getElementById('htmlCode').textContent = htmlCode.trim();
-  document.getElementById('jsCode').textContent = jsCode.trim();
-  openPopup();
-});
-
-// === Popup Controls ===
-function openPopup() {
-  codeBox.classList.add('codeParent-flex');
-}
-
-function closePopup() {
-  codeBox.classList.remove('codeParent-flex');
-}
-document.getElementById('closePopup').addEventListener('click', closePopup);
 
 // === Optional: SideNav Logic
 function openNav() {
@@ -284,164 +227,353 @@ document.addEventListener('DOMContentLoaded', () => {
   const progressColorInput = document.getElementById('progressColor');
   const thumbColorInput = document.querySelector('#thumbColorInput');
 
-  let trackColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-track').trim() || '#cccccc';
-  let progressColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-progress').trim() || '#ff0000';
-  let thumbColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-thumb').trim() || "#000000"
-
+  // Initialize design variables from CSS or defaults
+  trackColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-track').trim() || '#cccccc';
+  progressColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-progress').trim() || '#ff0000';
+  thumbColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-thumb').trim() || "#000000";
 
   // Set initial color inputs
-  trackColorInput.value = trackColor;
-  progressColorInput.value = progressColor;
-  thumbColorInput.value = thumbColor;
+  if (trackColorInput) trackColorInput.value = trackColor;
+  if (progressColorInput) progressColorInput.value = progressColor;
+  if (thumbColorInput) thumbColorInput.value = thumbColor;
 
   function updateSliderBackground() {
-  const value = slider.value;
-  const min = slider.min || 0;
-  const max = slider.max || 100;
-  const percentage = ((value - min) / (max - min)) * 100;
+    const value = slider.value;
+    const min = slider.min || 0;
+    const max = slider.max || 100;
+    const percentage = ((value - min) / (max - min)) * 100;
 
-  const gradient = `linear-gradient(to right, ${progressColor} 0%, ${progressColor} ${percentage}%, ${trackColor} ${percentage}%, ${trackColor} 100%)`;
+    const gradient = `linear-gradient(to right, ${progressColor} 0%, ${progressColor} ${percentage}%, ${trackColor} ${percentage}%, ${trackColor} 100%)`;
 
-  slider.style.setProperty('--slider-track-gradient', gradient);
-}
-
+    slider.style.setProperty('--slider-track-gradient', gradient);
+  }
 
   // === Native input listeners ===
-thumbColorInput.addEventListener('input', (e) => {
-  const color = e.target.value;
-  document.documentElement.style.setProperty('--slider-thumb', color);
-});
+  if (thumbColorInput) {
+    thumbColorInput.addEventListener('input', (e) => {
+      thumbColor = e.target.value;
+      document.documentElement.style.setProperty('--slider-thumb', thumbColor);
+    });
+  }
 
+  if (trackColorInput) {
+    trackColorInput.addEventListener('input', (e) => {
+      trackColor = e.target.value;
+      document.documentElement.style.setProperty('--slider-track', trackColor);
+      updateSliderBackground();
+    });
+  }
+
+  if (progressColorInput) {
+    progressColorInput.addEventListener('input', (e) => {
+      progressColor = e.target.value;
+      document.documentElement.style.setProperty('--slider-progress', progressColor);
+      updateSliderBackground();
+    });
+  }
 
   slider.addEventListener('input', updateSliderBackground);
   updateSliderBackground();
 
   // === Pickr for Track Color ===
-  const trackPickr = Pickr.create({
-    el: '.track-pickr',
-    theme: 'classic',
-    default: trackColor,
-    swatches: null,
-    components: {
-      preview: true,
-      opacity: false,
-      hue: true,
-      interaction: {
-        hex: true,
-        input: true,
-        clear: false,
-        save: false
+  if (typeof Pickr !== 'undefined') {
+    const trackPickr = Pickr.create({
+      el: '.track-pickr',
+      theme: 'classic',
+      default: trackColor,
+      swatches: null,
+      components: {
+        preview: true,
+        opacity: false,
+        hue: true,
+        interaction: {
+          hex: true,
+          input: true,
+          clear: false,
+          save: false
+        }
       }
-    }
-  });
+    });
 
-  trackPickr.on('change', (color) => {
-    const hex = color.toHEXA().toString();
-    trackColor = hex;
-    document.documentElement.style.setProperty('--slider-track', hex);
-    trackColorInput.value = hex;
-    updateSliderBackground();
-  });
+    trackPickr.on('change', (color) => {
+      const hex = color.toHEXA().toString();
+      trackColor = hex;
+      document.documentElement.style.setProperty('--slider-track', hex);
+      if (trackColorInput) trackColorInput.value = hex;
+      updateSliderBackground();
+    });
 
-  // === Pickr for Progress Color ===
-  const progressPickr = Pickr.create({
-    el: '.progress-pickr',
-    theme: 'classic',
-    default: progressColor,
-    swatches: null,
-    components: {
-      preview: true,
-      opacity: false,
-      hue: true,
-      interaction: {
-        hex: true,
-        input: true,
-        clear: false,
-        save: false
+    // === Pickr for Progress Color ===
+    const progressPickr = Pickr.create({
+      el: '.progress-pickr',
+      theme: 'classic',
+      default: progressColor,
+      swatches: null,
+      components: {
+        preview: true,
+        opacity: false,
+        hue: true,
+        interaction: {
+          hex: true,
+          input: true,
+          clear: false,
+          save: false
+        }
       }
-    }
-  });
+    });
 
-    progressColorInput.addEventListener('input', (e) => {
-    progressColor = e.target.value;
-    document.documentElement.style.setProperty('--slider-progress', progressColor);
-    progressPickr.setColor(progressColor);
-    updateSliderBackground();
-  });
+    progressPickr.on('change', (color) => {
+      const hex = color.toHEXA().toString();
+      progressColor = hex;
+      document.documentElement.style.setProperty('--slider-progress', hex);
+      if (progressColorInput) progressColorInput.value = hex;
+      updateSliderBackground();
+    });
 
-  progressPickr.on('change', (color) => {
-    const hex = color.toHEXA().toString();
-    progressColor = hex;
-    document.documentElement.style.setProperty('--slider-progress', hex);
-    progressColorInput.value = hex;
-    updateSliderBackground();
-  });
-
-  const thumbPickr = Pickr.create({
-    el: '.thumb-pickr',
-    theme: 'classic',
-    default: trackColor,
-    swatches: null,
-    components: {
-      preview: true,
-      opacity: false,
-      hue: true,
-      interaction: {
-        hex: true,
-        input: true,
-        clear: false,
-        save: false
+    const thumbPickr = Pickr.create({
+      el: '.thumb-pickr',
+      theme: 'classic',
+      default: thumbColor,
+      swatches: null,
+      components: {
+        preview: true,
+        opacity: false,
+        hue: true,
+        interaction: {
+          hex: true,
+          input: true,
+          clear: false,
+          save: false
+        }
       }
-    }
-  });
-  thumbPickr.on('change', (color) => {
-    const hex = color.toHEXA().toString();
-    thumbColor = hex;
-    document.documentElement.style.setProperty('--slider-thumb', hex);
-    thumbColorInput.value = hex;
-    updateSliderBackground();
-  });
+    });
+
+    thumbPickr.on('change', (color) => {
+      const hex = color.toHEXA().toString();
+      thumbColor = hex;
+      document.documentElement.style.setProperty('--slider-thumb', hex);
+      if (thumbColorInput) thumbColorInput.value = hex;
+    });
+  }
 });
 
-const sliderOutputTextColor = document.querySelector('#sliderOutputTextColor');
+const sliderOutputTextColorInput = document.querySelector('#sliderOutputTextColor');
 
-sliderOutputTextColor.addEventListener('input', (e) => {
-  const newColor = e.target.value;
-
-  // This updates the root variable in :root
-  document.documentElement.style.setProperty('--sliderOutputText', newColor);
-
-  // Change immedaitely
-  sliderOutputText.style.color = newColor;
-});
-
+if (sliderOutputTextColorInput) {
+  sliderOutputTextColorInput.addEventListener('input', (e) => {
+    sliderOutputTextColor = e.target.value;
+    document.documentElement.style.setProperty('--sliderOutputText', sliderOutputTextColor);
+    if (sliderOutputText) sliderOutputText.style.color = sliderOutputTextColor;
+  });
+}
 
 // Thumb Radius 
 const thumbRadiusInput = document.querySelector('#thumbRadiusInput');
-let thumbRadius = thumbRadiusInput.value;
-
-thumbRadiusInput.addEventListener('input', (e) => {
-  thumbRadius = e.target.value + "%";
-  document.documentElement.style.setProperty('--thumb-radius', thumbRadius);
-})
+if (thumbRadiusInput) {
+  thumbRadiusInput.addEventListener('input', (e) => {
+    thumbRadius = e.target.value + "%";
+    document.documentElement.style.setProperty('--thumb-radius', thumbRadius);
+  });
+}
 
 //Thumb width 
 const thumbWidthInput = document.querySelector('#thumbWidthInput');
-let thumbWidth = thumbWidthInput;
-
-thumbWidthInput.addEventListener('input', (e) => {
-  thumbWidth = e.target.value + "px";
-  document.documentElement.style.setProperty('--thumb-width', thumbWidth)
-})
+if (thumbWidthInput) {
+  thumbWidthInput.addEventListener('input', (e) => {
+    thumbWidth = e.target.value + "px";
+    document.documentElement.style.setProperty('--thumb-width', thumbWidth);
+  });
+}
 
 //slider height 
 const sliderHeightInput = document.querySelector('#sliderHeightInput');
-let sliderHeight = sliderHeightInput;
+if (sliderHeightInput) {
+  sliderHeightInput.addEventListener('input', (e) => {
+    sliderHeight = e.target.value + "px";
+    document.documentElement.style.setProperty('--slider-height', sliderHeight);
+  });
+}
 
-sliderHeightInput.addEventListener('input',(e) => {
-  sliderHeight = e.target.value + "px";
-  document.documentElement.style.setProperty('--slider-height', sliderHeight);
-})
+// === Code Generation Button ===
+btnGetCode.addEventListener('click', () => {
+  // Update all variables from current form values before generating code
+  currentCreditAmount = parseInt(sliderConfig.value, 10);
+  currentUnitType = unitTypeInput.value.trim() || "credit";
+  currentUnitTypePlural = unitTypeInputPlural.value.trim() || "credits";
+  discountPercent = parseFloat(percentageDiscount.value) || 0;
+  unitDiscountStartFrom = parseInt(unitDiscountStart.value, 10) || 5;
+  currentMinValue = parseInt(minValue.value, 10) || 1;
+  currentMaxValue = parseInt(maxValue.value, 10) || 100;
+  templatePhrase = phraseInput.value.trim() || "Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY_TYPE][PRICE]!";
+  basePricePerUnit = parseFloat(pricePerUnit.value) || 10;
+  currentCurrencyCode = currency.value;
+  currentCurrencySymbol = currencySymbols[currentCurrencyCode] || "$";
+  
+  // Get current design values
+  const trackColorInput = document.getElementById('trackColor');
+  const progressColorInput = document.getElementById('progressColor');
+  const thumbColorInput = document.getElementById('thumbColorInput');
+  const sliderOutputTextColorInput = document.getElementById('sliderOutputTextColor');
+  const thumbRadiusInput = document.getElementById('thumbRadiusInput');
+  const thumbWidthInput = document.getElementById('thumbWidthInput');
+  const sliderHeightInput = document.getElementById('sliderHeightInput');
+  
+  if (trackColorInput) trackColor = trackColorInput.value;
+  if (progressColorInput) progressColor = progressColorInput.value;
+  if (thumbColorInput) thumbColor = thumbColorInput.value;
+  if (sliderOutputTextColorInput) sliderOutputTextColor = sliderOutputTextColorInput.value;
+  if (thumbRadiusInput) thumbRadius = thumbRadiusInput.value + "%";
+  if (thumbWidthInput) thumbWidth = thumbWidthInput.value + "px";
+  if (sliderHeightInput) sliderHeight = sliderHeightInput.value + "px";
 
-//tooltip 
+  const htmlCode = `
+<div id="pricingSlider">
+  <h2 id="sliderOutput">Purchase ${currentCreditAmount} ${currentUnitType} and receive a ${getDiscountText()} discount, making your total just ${currentCurrencySymbol}${calculatePrice()}!</h2>
+  <input type="range" id="sliderInput" min="${currentMinValue}" max="${currentMaxValue}" value="${currentCreditAmount}" step="1" />
+</div>`;
 
+  const jsCode = `
+<script>
+const sliderInput = document.getElementById('sliderInput');
+const sliderOutput = document.getElementById('sliderOutput');
+const basePricePerUnit = ${basePricePerUnit};
+const discountPercent = ${discountPercent};
+const unitDiscountStartFrom = ${unitDiscountStartFrom};
+const unitType = "${currentUnitType}";
+const unitTypePlural = "${currentUnitTypePlural}";
+const symbol = "${currentCurrencySymbol}";
+const trackColor = "${trackColor}";
+const progressColor = "${progressColor}";
+
+function calculatePrice(units) {
+  let total = units * basePricePerUnit;
+  if (units >= unitDiscountStartFrom) {
+    total *= (1 - discountPercent / 100);
+  }
+  return total.toFixed(2);
+}
+
+function getDiscountText(units) {
+  return units >= unitDiscountStartFrom ? discountPercent + '%' : '0%';
+}
+
+function updateSliderBackground() {
+  const value = sliderInput.value;
+  const min = sliderInput.min || 0;
+  const max = sliderInput.max || 100;
+  const percentage = ((value - min) / (max - min)) * 100;
+  const gradient = \`linear-gradient(to right, \${progressColor} 0%, \${progressColor} \${percentage}%, \${trackColor} \${percentage}%, \${trackColor} 100%)\`;
+  sliderInput.style.background = gradient;
+}
+
+function updateOutput(units) {
+  const unitLabel = units === 1 ? unitType : unitTypePlural;
+  sliderOutput.textContent = \`${templatePhrase
+    .replace(/\[UNITS_AMOUNT\]/g, "\${units}")
+    .replace(/\[UNITS\]/g, "\${unitLabel}")
+    .replace(/\[DISCOUNT\]/g, "\${getDiscountText(units)}")
+    .replace(/\[PRICE\]/g, "\${calculatePrice(units)}")
+    .replace(/\[CURRENCY_TYPE\]/g, "\${symbol}")
+    .replace(/\[CURRENCY\]/g, "\${symbol}")}\`;
+  updateSliderBackground();
+}
+
+sliderInput.addEventListener('input', (e) => {
+  updateOutput(parseInt(e.target.value, 10));
+});
+
+updateOutput(${currentCreditAmount});
+updateSliderBackground();
+<\/script>`;
+
+const cssCode = `
+#pricingSlider {
+  --slider-track: ${trackColor};
+  --slider-progress: ${progressColor};
+  --slider-thumb: ${thumbColor};
+  --thumb-radius: ${thumbRadius};
+  --thumb-width: ${thumbWidth};
+  --slider-height: ${sliderHeight};
+  --sliderOutputText: ${sliderOutputTextColor};
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: var(--slider-height);
+  border-radius: 4px;
+  outline: none;
+  margin: 20px 0;
+  background: linear-gradient(to right, ${trackColor} 0%, ${trackColor} 100%);
+}
+
+/* WebKit Thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--thumb-width);
+  height: var(--thumb-width);
+  border-radius: var(--thumb-radius);
+  background-color: var(--slider-thumb);
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Firefox Thumb */
+input[type="range"]::-moz-range-thumb {
+  width: var(--thumb-width);
+  height: var(--thumb-width);
+  border-radius: var(--thumb-radius);
+  background-color: var(--slider-thumb);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* WebKit Track */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: transparent;
+  height: var(--slider-height);
+  border-radius: 4px;
+}
+
+/* Firefox Track */
+input[type="range"]::-moz-range-track {
+  background: transparent;
+  height: var(--slider-height);
+  border-radius: 4px;
+  border: none;
+}
+
+#sliderOutput {
+  color: var(--sliderOutputText);
+}`;
+
+  document.getElementById('htmlCode').textContent = htmlCode.trim();
+  document.getElementById('jsCode').textContent = jsCode.trim();
+  document.getElementById('cssCode').textContent = cssCode.trim();
+  openPopup();
+});
+
+// === Popup Controls ===
+function openPopup() {
+  codeBox.classList.add('codeParent-flex');
+}
+
+function closePopup() {
+  codeBox.classList.remove('codeParent-flex');
+}
+
+if (document.getElementById('closePopup')) {
+  document.getElementById('closePopup').addEventListener('click', closePopup);
+}

@@ -431,6 +431,19 @@ p {
   margin-top: 20px;
 }
 
+#pricingSlider {
+  --slider-track: #cccccc;
+  --slider-progress: #ff0000;
+  --slider-thumb: #000000;
+
+  /* Thumb Radius */
+  --thumb-radius: 50%;
+  --thumb-width: 20px;
+
+  /* Slider Height */
+  --slider-height: 8px;
+}
+
 input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
@@ -455,6 +468,7 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
   box-shadow: var(--shadow-md);
   transition: all 0.2s ease;
+  z-index: 2;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
