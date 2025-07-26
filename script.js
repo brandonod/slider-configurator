@@ -280,24 +280,45 @@ function closeNav() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const slider = document.getElementById('sliderConfig');
-  const trackColor = document.getElementById('trackColor');
-  let currentTrackColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-track').trim();
+  const trackColorInput = document.getElementById('trackColor');
+  const progressColorInput = document.getElementById('progressColor');
 
-  // Set initial value in native color input
-  trackColor.value = currentTrackColor;
+  let trackColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-track').trim() || '#cccccc';
+  let progressColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-progress').trim() || '#ff0000';
 
-  // Native color input → update global CSS + Pickr
-  trackColor.addEventListener('input', (e) => {
-    currentTrackColor = e.target.value;
-    document.documentElement.style.setProperty('--slider-track', currentTrackColor);
-    pickr.setColor(currentTrackColor);
+
+  // Set initial color inputs
+  trackColorInput.value = trackColor;
+  progressColorInput.value = progressColor;
+
+  function updateSliderBackground() {
+  const value = slider.value;
+  const min = slider.min || 0;
+  const max = slider.max || 100;
+  const percentage = ((value - min) / (max - min)) * 100;
+
+  const gradient = `linear-gradient(to right, ${progressColor} 0%, ${progressColor} ${percentage}%, ${trackColor} ${percentage}%, ${trackColor} 100%)`;
+
+  slider.style.setProperty('--slider-track-gradient', gradient);
+}
+
+
+  // === Native input listeners ===
+  trackColorInput.addEventListener('input', (e) => {
+    trackColor = e.target.value;
+    document.documentElement.style.setProperty('--slider-track', trackColor);
+    trackPickr.setColor(trackColor);
+    updateSliderBackground();
   });
 
-  // Initialize Pickr
-  const pickr = Pickr.create({
+  slider.addEventListener('input', updateSliderBackground);
+  updateSliderBackground();
+
+  // === Pickr for Track Color ===
+  const trackPickr = Pickr.create({
     el: '.track-pickr',
     theme: 'classic',
-    default: currentTrackColor,
+    default: trackColor,
     swatches: null,
     components: {
       preview: true,
@@ -312,11 +333,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Pickr → update global CSS + native input
-  pickr.on('change', (color) => {
+  trackPickr.on('change', (color) => {
     const hex = color.toHEXA().toString();
-    currentTrackColor = hex;
+    trackColor = hex;
     document.documentElement.style.setProperty('--slider-track', hex);
-    trackColor.value = hex;
+    trackColorInput.value = hex;
+    updateSliderBackground();
+  });
+
+  // === Pickr for Progress Color ===
+  const progressPickr = Pickr.create({
+    el: '.progress-pickr',
+    theme: 'classic',
+    default: progressColor,
+    swatches: null,
+    components: {
+      preview: true,
+      opacity: false,
+      hue: true,
+      interaction: {
+        hex: true,
+        input: true,
+        clear: false,
+        save: false
+      }
+    }
+  });
+
+    progressColorInput.addEventListener('input', (e) => {
+    progressColor = e.target.value;
+    document.documentElement.style.setProperty('--slider-progress', progressColor);
+    progressPickr.setColor(progressColor);
+    updateSliderBackground();
+  });
+
+  progressPickr.on('change', (color) => {
+    const hex = color.toHEXA().toString();
+    progressColor = hex;
+    document.documentElement.style.setProperty('--slider-progress', hex);
+    progressColorInput.value = hex;
+    updateSliderBackground();
   });
 });
