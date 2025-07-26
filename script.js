@@ -282,14 +282,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const slider = document.getElementById('sliderConfig');
   const trackColorInput = document.getElementById('trackColor');
   const progressColorInput = document.getElementById('progressColor');
+  const thumbColorInput = document.querySelector('#thumbColorInput');
 
   let trackColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-track').trim() || '#cccccc';
   let progressColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-progress').trim() || '#ff0000';
+  let thumbColor = getComputedStyle(document.documentElement).getPropertyValue('--slider-thumb').trim() || "#000000"
 
 
   // Set initial color inputs
   trackColorInput.value = trackColor;
   progressColorInput.value = progressColor;
+  thumbColorInput.value = thumbColor;
 
   function updateSliderBackground() {
   const value = slider.value;
@@ -304,12 +307,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // === Native input listeners ===
-  trackColorInput.addEventListener('input', (e) => {
-    trackColor = e.target.value;
-    document.documentElement.style.setProperty('--slider-track', trackColor);
-    trackPickr.setColor(trackColor);
-    updateSliderBackground();
-  });
+thumbColorInput.addEventListener('input', (e) => {
+  const color = e.target.value;
+  document.documentElement.style.setProperty('--slider-thumb', color);
+});
+
 
   slider.addEventListener('input', updateSliderBackground);
   updateSliderBackground();
@@ -374,4 +376,72 @@ document.addEventListener('DOMContentLoaded', () => {
     progressColorInput.value = hex;
     updateSliderBackground();
   });
+
+  const thumbPickr = Pickr.create({
+    el: '.thumb-pickr',
+    theme: 'classic',
+    default: trackColor,
+    swatches: null,
+    components: {
+      preview: true,
+      opacity: false,
+      hue: true,
+      interaction: {
+        hex: true,
+        input: true,
+        clear: false,
+        save: false
+      }
+    }
+  });
+  thumbPickr.on('change', (color) => {
+    const hex = color.toHEXA().toString();
+    thumbColor = hex;
+    document.documentElement.style.setProperty('--slider-thumb', hex);
+    thumbColorInput.value = hex;
+    updateSliderBackground();
+  });
 });
+
+const sliderOutputTextColor = document.querySelector('#sliderOutputTextColor');
+
+sliderOutputTextColor.addEventListener('input', (e) => {
+  const newColor = e.target.value;
+
+  // This updates the root variable in :root
+  document.documentElement.style.setProperty('--sliderOutputText', newColor);
+
+  // Change immedaitely
+  sliderOutputText.style.color = newColor;
+});
+
+
+// Thumb Radius 
+const thumbRadiusInput = document.querySelector('#thumbRadiusInput');
+let thumbRadius = thumbRadiusInput.value;
+
+thumbRadiusInput.addEventListener('input', (e) => {
+  thumbRadius = e.target.value + "%";
+  document.documentElement.style.setProperty('--thumb-radius', thumbRadius);
+})
+
+//Thumb width 
+const thumbWidthInput = document.querySelector('#thumbWidthInput');
+let thumbWidth = thumbWidthInput;
+
+thumbWidthInput.addEventListener('input', (e) => {
+  thumbWidth = e.target.value + "px";
+  document.documentElement.style.setProperty('--thumb-width', thumbWidth)
+})
+
+//slider height 
+const sliderHeightInput = document.querySelector('#sliderHeightInput');
+let sliderHeight = sliderHeightInput;
+
+sliderHeightInput.addEventListener('input',(e) => {
+  sliderHeight = e.target.value + "px";
+  document.documentElement.style.setProperty('--slider-height', sliderHeight);
+})
+
+//tooltip 
+

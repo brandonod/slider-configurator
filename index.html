@@ -1,311 +1,210 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<title>Free Pricing Slider Configurator</title>
-<link href="style.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr"></script>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <title>Free Pricing Slider Configurator</title>
-    <link href="style.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <title>Free Pricing Slider Configurator</title>
+  <link href="style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr"></script>
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="container">
-            <a href="/test.html">Test</a>
-        </div>
-    </header>
-    <div class="app-container">
-        <!-- Side Navigation -->
-        <nav class="sidenav">
-            <div class="nav-item" data-panel="general">
-                <svg viewBox="0 0 24 24">
-                    <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
-                </svg>
-            </div>
-            <div class="nav-item" data-panel="design">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-            </div>
-            <div class="nav-item" data-panel="settings">
-                <svg viewBox="0 0 24 24">
-                    <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
-                </svg>
-            </div>
-            <div class="nav-item" data-panel="analytics">
-                <svg viewBox="0 0 24 24">
-                    <path d="M5,9.2h3V19h-3V9.2z M10.6,5h2.8v14h-2.8V5z M16.2,13H19v6h-2.8V13z"/>
-                </svg>
-            </div>
-        </nav>
-
-        <!-- Expanded Panel -->
-        <div class="expanded-panel" id="expandedPanel">
-            <div class="panel-header">
-                <h2 class="panel-title" id="panelTitle">General</h2>
-                <button class="close-btn" onclick="closePanel()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="tab-navigation">
-                <button class="tab-btn active" onclick="switchTab('basic')">Basic</button>
-                <button class="tab-btn" onclick="switchTab('advanced')">Advanced</button>
-            </div>
-
-            <div class="panel-content">
-                <!-- General Panel Content -->
-                <div class="tab-panel active" id="general-basic">
-                    <div class="form-group">
-                        <label class="form-label">The Text You'll Output</label>
-                        <textarea class="form-textarea" 
-                        placeholder="Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY][PRICE]!"
-                        id="phrase">
-                      Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY][PRICE]!</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Unit Name</label>
-                        <input type="text" class="form-input" placeholder="item" id="unitType">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Unit Name Plural</label>
-                        <input type="text" class="form-input" placeholder="items" id="unitTypePlural">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Price Per Unit</label>
-                        <input type="number" class="form-input" placeholder="20" id="pricePerUnit">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Currency</label>
-                        <select class="form-select" id="currency">
-                          <option value="USD">US Dollar</option>
-                          <option value="EUR">Euro</option>
-                          <option value="GBP">British Pound</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Min Unit</label>
-                        <input type="number" class="form-input" value="1" id="minValue">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Max Unit</label>
-                        <input type="number" class="form-input" value="100" id="maxValue">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Default Unit Amount</label>
-                        <input type="number" class="form-input" value="1" id="defaultUnitAmount">
-                    </div>
-                </div>
-
-                <div class="tab-panel" id="general-advanced">
-                    <div class="form-group">
-                        <label for="discountMethod">Choose Discount Method:</label>
-                        <select name="Discount Method" id="discountMethod" class="form-select">
-                          <option value="linear">Linear</option>
-                          <option value="intervals">Intervals</option>
-                        </select>
-                    </div>
-                    <!--Lienar Discount-->
-                    <div id="linearOptions">
-                    <div class="form-group">
-                      <label class="form-label">Percentage Discount</label>
-                      <input type="number" class="form-input" value="1" id="percentageDiscount">
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Discount Starts at Unit</label>
-                      <input type="number" class="form-input" value="5" id="unitDiscountStartFrom">
-                    </div>
-                  </div>
-
-                    <div id="intervalOptions">
-                        <div class="form-group interval">
-                            <div class="exitbutton">X</div>
-                            <label class="form-label">Discount Starts At</label>
-                            <input type="number" class="form-input interval-discount-number" value="5"id="intervalDiscountNumber">
-                            <label class="form-label">Discount Percentage (%)</label>
-                            <input type="number" class="form-input interval-discount-percentage" value="5" id="intervalDiscountPercentage">
-                          
-                        </div>
-                        <button id="addNewInterval">+ Add Interval</button>
-                      </div>
-                </div>
-
-                <!-- Design Panel Content -->
-                <div class="tab-panel" id="design-basic" style="display: none;">
-                    <div class="form-group">
-                        <label for="trackColor">Choose Track Color</label>
-                        <input type="color" id="trackColor" value="#cccccc" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="progressColor">Choose Progress Fill Color</label>
-                        <input type="color" id="progressColor" value="#ff0000" />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Text Color</label>
-                        <input type="color" class="form-input" value="#333333">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Border Radius</label>
-                        <input type="range" class="form-input" min="0" max="20" value="8">
-                    </div>
-                </div>
-
-                <div class="tab-panel" id="design-advanced" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Custom CSS</label>
-                        <textarea class="form-textarea" placeholder="Enter custom CSS styles..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Animation Duration</label>
-                        <input type="number" class="form-input" placeholder="300" step="50">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Shadow Style</label>
-                        <select class="form-select">
-                            <option>None</option>
-                            <option>Light</option>
-                            <option>Medium</option>
-                            <option>Heavy</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Settings Panel Content -->
-                <div class="tab-panel" id="settings-basic" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Auto-update Price</label>
-                        <select class="form-select">
-                            <option>Enabled</option>
-                            <option>Disabled</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Show Tooltips</label>
-                        <select class="form-select">
-                            <option>Yes</option>
-                            <option>No</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Default State</label>
-                        <select class="form-select">
-                            <option>Collapsed</option>
-                            <option>Expanded</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="tab-panel" id="settings-advanced" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">API Endpoint</label>
-                        <input type="url" class="form-input" placeholder="https://api.example.com/pricing">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Callback Function</label>
-                        <input type="text" class="form-input" placeholder="onPriceChange">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Debug Mode</label>
-                        <select class="form-select">
-                            <option>Disabled</option>
-                            <option>Enabled</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Analytics Panel Content -->
-                <div class="tab-panel" id="analytics-basic" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Track Events</label>
-                        <select class="form-select">
-                            <option>Enabled</option>
-                            <option>Disabled</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Analytics Provider</label>
-                        <select class="form-select">
-                            <option>Google Analytics</option>
-                            <option>Mixpanel</option>
-                            <option>Custom</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="tab-panel" id="analytics-advanced" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Custom Event Names</label>
-                        <textarea class="form-textarea" placeholder="Define custom event names..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Data Collection</label>
-                        <select class="form-select">
-                            <option>Standard</option>
-                            <option>Enhanced</option>
-                            <option>Minimal</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <section>
-                <div class="container">
-                    <h1>Pricing Slider Configurator</h1>
-                    <p>Configure your pricing slider below and see it update in real-time!</p>
-
-                    <h2 id="sliderOutputText"></h2>
-                    <label for="sliderConfig">Units Amount: <span id="sliderValue">15</span></label>
-                    <input
-                        type="range"
-                        id="sliderConfig"
-                        min="0"
-                        max="100"
-                        value="15"
-                        step="1"
-                    />
-
-                   <button id="btnGetCode">Get Code</button>
-                </div>
-            </section>
-
-            <section>
-                <div class="codeParent" id="codeBox">
-                    <button id="closePopup" style="float:right;">✖</button>
-                    <h2>Code Output</h2>
-                    <div class="css codeoutput">
-                        <p id="cssCode" class="code">/* CSS output */</p>
-                    </div>
-                    <div class="html codeoutput">
-                        <p id="htmlCode" class="code"></p>
-                    </div>
-                    <div class="js codeoutput">
-                        <p id="jsCode" class="code"></p>
-                    </div>
-                </div>
-            </section>
-        </main>
+  <header class="site-header">
+    <div class="container">
+      <a href="/test.html">Test</a>
     </div>
+  </header>
 
-    <script src="script.js"></script>
-    <script src="sideNav.js"></script>
+  <div class="app-container">
+    <!-- Side Navigation -->
+    <nav class="sidenav">
+      <div class="nav-item" data-panel="general">
+        <svg viewBox="0 0 24 24">
+          <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+        </svg>
+      </div>
+      <div class="nav-item" data-panel="design">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+      </div>
+    </nav>
+
+    <!-- Expanded Panel -->
+    <div class="expanded-panel" id="expandedPanel">
+      <div class="panel-header">
+        <h2 class="panel-title" id="panelTitle">General</h2>
+        <button class="close-btn" onclick="closePanel()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="tab-navigation">
+        <button class="tab-btn active" onclick="switchTab('basic')">Basic</button>
+        <button class="tab-btn" onclick="switchTab('advanced')">Advanced</button>
+      </div>
+
+      <div class="panel-content">
+        <!-- General Panel Content -->
+        <div class="tab-panel active" id="general-basic">
+          <div class="form-group">
+            <label class="form-label">The Text You'll Output</label>
+            <textarea class="form-textarea" placeholder="Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY][PRICE]!" id="phrase">Purchase [UNITS_AMOUNT] [UNITS] and receive a [DISCOUNT] discount, making your total just [CURRENCY][PRICE]!</textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Unit Name</label>
+            <input type="text" class="form-input" placeholder="item" id="unitType">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Unit Name Plural</label>
+            <input type="text" class="form-input" placeholder="items" id="unitTypePlural">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price Per Unit</label>
+            <input type="number" class="form-input" placeholder="20" id="pricePerUnit">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Currency</label>
+            <select class="form-select" id="currency">
+              <option value="USD">US Dollar</option>
+              <option value="EUR">Euro</option>
+              <option value="GBP">British Pound</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Min Unit</label>
+            <input type="number" class="form-input" value="1" id="minValue">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Max Unit</label>
+            <input type="number" class="form-input" value="100" id="maxValue">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Default Unit Amount</label>
+            <input type="number" class="form-input" value="1" id="defaultUnitAmount">
+          </div>
+        </div>
+
+        <div class="tab-panel" id="general-advanced">
+          <div class="form-group">
+            <label for="discountMethod">Choose Discount Method:</label>
+            <select name="Discount Method" id="discountMethod" class="form-select">
+              <option value="linear">Linear</option>
+              <option value="intervals">Intervals</option>
+            </select>
+          </div>
+          <div id="linearOptions">
+            <div class="form-group">
+              <label class="form-label">Percentage Discount</label>
+              <input type="number" class="form-input" value="1" id="percentageDiscount">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Discount Starts at Unit</label>
+              <input type="number" class="form-input" value="5" id="unitDiscountStartFrom">
+            </div>
+          </div>
+
+          <div id="intervalOptions">
+            <div class="form-group interval">
+              <div class="exitbutton">X</div>
+              <label class="form-label">Discount Starts At</label>
+              <input type="number" class="form-input interval-discount-number" value="5" id="intervalDiscountNumber">
+              <label class="form-label">Discount Percentage (%)</label>
+              <input type="number" class="form-input interval-discount-percentage" value="5" id="intervalDiscountPercentage">
+            </div>
+            <button id="addNewInterval">+ Add Interval</button>
+          </div>
+        </div>
+
+        <!-- Design Panel Content -->
+        <div class="tab-panel" id="design-basic" style="display: none;">
+          <div class="form-group">
+            <label for="trackColor">Choose Track Color</label>
+            <input type="color" id="trackColor" value="#cccccc" />
+            <div class="track-pickr"></div>
+          </div>
+          <div class="form-group">
+            <label for="progressColor">Choose Progress Fill Color</label>
+            <input type="color" id="progressColor" value="#ff0000" />
+            <div class="progress-pickr"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Text Color</label>
+            <input type="color" class="form-input" id="sliderOutputTextColor" value="#333333">
+            <div class="progress-pickr"></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="design-advanced" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">Thumb Color</label>
+            <input type="color" class="form-input" id="thumbColorInput" value="#cccccc">
+            <div class="thumb-pickr"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Thumb Shape</label>
+            <input type="range" class="form-input" id="thumbRadiusInput" value="50" min="0" max="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Thumb Width</label>
+            <input type="text" class="form-input" id="thumbWidthInput" value="20" min="0" max="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Slider Height</label>
+            <input type="text" class="form-input" id="sliderHeightInput" value="20" min="0" max="100" placeholder="8">
+          </div>
+          
+        </div>
+      </div> <!-- Close .panel-content -->
+    </div> <!-- ✅ Close .expanded-panel -->
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <section>
+        <div class="container">
+          <h1>Pricing Slider Configurator</h1>
+          <p>Configure your pricing slider below and see it update in real-time!</p>
+
+          <h2 id="sliderOutputText"></h2>
+          <label for="sliderConfig">Units Amount: <span id="sliderValue">15</span></label>
+          <input
+            type="range"
+            id="sliderConfig"
+            min="0"
+            max="100"
+            value="15"
+            step="1"
+          />
+
+          <button id="btnGetCode">Get Code</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="codeParent" id="codeBox">
+          <button id="closePopup" style="float:right;">✖</button>
+          <h2>Code Output</h2>
+          <div class="css codeoutput">
+            <p id="cssCode" class="code">/* CSS output */</p>
+          </div>
+          <div class="html codeoutput">
+            <p id="htmlCode" class="code"></p>
+          </div>
+          <div class="js codeoutput">
+            <p id="jsCode" class="code"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div> <!-- Close .app-container -->
+
+  <script src="script.js"></script>
+  <script src="sideNav.js"></script>
 </body>
 </html>
